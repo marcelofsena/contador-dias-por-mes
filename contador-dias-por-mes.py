@@ -70,7 +70,16 @@ if st.session_state.get('calculo_feito', False):
     total_ajustado = 0
     total_calculo_final = 0
 
-    for mes, qtd in sorted(st.session_state['dias'].items(), key=lambda x: datetime.strptime(x[0], "%B/%Y")):
+    MES_PARA_NUM = {
+    "Janeiro": 1, "Fevereiro": 2, "Março": 3,
+    "Abril": 4, "Maio": 5, "Junho": 6,
+    "Julho": 7, "Agosto": 8, "Setembro": 9,
+    "Outubro": 10, "Novembro": 11, "Dezembro": 12
+    }
+    for mes, qtd in sorted(
+    st.session_state['dias'].items(),
+    key=lambda x: (int(x[0].split("/")[1]), MES_PARA_NUM[x[0].split("/")[0]])
+    ):
         subtrair = st.number_input(f"Subtrair de {mes}", min_value=0, max_value=qtd, value=0, key=f"sub_{mes}")
         ajustado = qtd - subtrair
         total_original += qtd
