@@ -1,7 +1,14 @@
 import streamlit as st
 import pandas as pd
-import locale
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+
+# Tradução de nomes de meses
+MESES_PT = {
+    "January": "Janeiro", "February": "Fevereiro", "March": "Março",
+    "April": "Abril", "May": "Maio", "June": "Junho",
+    "July": "Julho", "August": "Agosto", "September": "Setembro",
+    "October": "Outubro", "November": "Novembro", "December": "Dezembro"
+}
+
 
 from datetime import datetime, timedelta
 from collections import defaultdict
@@ -20,7 +27,10 @@ def calcular_dias_por_mes(periodos):
     for inicio, fim in periodos:
         data_atual = inicio
         while data_atual <= fim:
-            chave = data_atual.strftime("%B/%Y")  # Ex: Outubro/2024
+            mes_en = data_atual.strftime("%B")
+            mes_pt = MESES_PT.get(mes_en, mes_en)
+            chave = f"{mes_pt}/{data_atual.year}"
+
             dias_por_mes[chave] += 1
             data_atual += timedelta(days=1)
 
